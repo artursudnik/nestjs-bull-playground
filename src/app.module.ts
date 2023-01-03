@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BullModule } from '@nestjs/bull';
+import { AudioProcessor } from './audio.processor';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { BullModule } from '@nestjs/bull';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AudioProcessor],
 })
 export class AppModule {}
