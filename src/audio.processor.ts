@@ -3,6 +3,7 @@ import {
   OnQueueCleaned,
   OnQueueCompleted,
   OnQueueDrained,
+  OnQueueError,
   OnQueueFailed,
   OnQueueRemoved,
   OnQueueStalled,
@@ -32,6 +33,11 @@ export class AudioProcessor {
     } else {
       await setTimeout(job.data.options.processingTime * 1000);
     }
+  }
+
+  @OnQueueError()
+  onQueueError(err: Error) {
+    this.logger.error(err);
   }
 
   @OnQueueActive()
