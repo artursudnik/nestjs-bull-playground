@@ -12,7 +12,7 @@ import {
 import { Job } from 'bull';
 import { Logger } from '@nestjs/common';
 import { setTimeout } from 'timers/promises';
-import { TRANSCODING_JOB_TYPE_NAME } from './types';
+import { JobData, TRANSCODING_JOB_TYPE_NAME } from './types';
 
 @Processor('audio')
 export class AudioProcessor {
@@ -25,8 +25,8 @@ export class AudioProcessor {
   }
 
   @Process(TRANSCODING_JOB_TYPE_NAME)
-  async transcode(job: Job<{ foo: string }>) {
-    await setTimeout(1000);
+  async transcode(job: Job<JobData>) {
+    await setTimeout(job.data.options.processingTime * 1000);
   }
 
   @OnQueueActive()

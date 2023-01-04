@@ -12,7 +12,7 @@ export class AppController {
 
   @Post('add-job')
   async addJob(): Promise<string> {
-    await this.appService.addJob();
+    await this.appService.addJob({ foo: 'bar' });
     return 'Job added\n';
   }
 }
