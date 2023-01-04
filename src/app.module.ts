@@ -3,12 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BullModule } from '@nestjs/bull';
 import { AudioProcessor } from './audio.processor';
+import * as process from 'process';
 
 @Module({
   imports: [
     BullModule.forRoot({
       redis: {
-        host: '127.0.0.1',
+        host: process.env.REDIS_HOST || '127.0.0.1',
         port: 6379,
       },
     }),
