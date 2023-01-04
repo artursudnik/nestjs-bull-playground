@@ -18,17 +18,22 @@ export class AppController {
 
   @Post('add-job/immediate')
   async addJobImmediate(): Promise<string> {
-    await this.appService.addJob({ foo: 'immediate' }, { processingTime: 0 });
-    return 'Job added\n';
+    const jobId = await this.appService.addJob(
+      { foo: 'immediate' },
+      { processingTime: 0 },
+    );
+
+    return `Job ${jobId} added\n`;
   }
 
   @Post('add-job/failing-immediately')
   async addJobFailingImmediately(): Promise<string> {
-    await this.appService.addJob(
+    const jobId = await this.appService.addJob(
       { foo: 'failing immediately' },
       { failAfter: 0, processingTime: 0 },
     );
-    return 'Job added\n';
+
+    return `Job ${jobId} added\n`;
   }
 
   @Post('add-job/delayed/:delay')
@@ -37,11 +42,12 @@ export class AppController {
       throw new NotFoundException();
     }
 
-    await this.appService.addJob(
+    const jobId = await this.appService.addJob(
       { foo: `delayed by ${delay}s` },
       { processingTime: parseInt(delay) },
     );
-    return 'Job added\n';
+
+    return `Job ${jobId} added\n`;
   }
 
   @Post('add-job/failing-delayed/:delay')
@@ -50,10 +56,11 @@ export class AppController {
       throw new NotFoundException();
     }
 
-    await this.appService.addJob(
+    const jobId = await this.appService.addJob(
       { foo: `failing delayed by ${delay}s` },
       { processingTime: 0, failAfter: parseInt(delay) },
     );
-    return 'Job added\n';
+
+    return `Job ${jobId} added\n`;
   }
 }

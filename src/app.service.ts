@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bull';
-import { Queue } from 'bull';
+import { JobId, Queue } from 'bull';
 import { JobOptions, JobPayload, TRANSCODING_JOB_TYPE_NAME } from './types';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class AppService {
   async addJob(
     payload: JobPayload,
     options: JobOptions = { processingTime: 1 },
-  ): Promise<void> {
+  ): Promise<JobId> {
     this.logger.debug('adding job');
 
     const job = await this.audioQueue.add(TRANSCODING_JOB_TYPE_NAME, {
@@ -25,5 +25,7 @@ export class AppService {
     });
 
     this.logger.debug(`job ${job.id} added`);
+
+    return job.id;
   }
 }
