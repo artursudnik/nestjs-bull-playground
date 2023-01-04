@@ -14,6 +14,10 @@ import { AudioProcessor } from './audio.processor';
     }),
     BullModule.registerQueue({
       name: 'audio',
+      defaultJobOptions: {
+        removeOnFail: { count: 20, age: 60 },
+        removeOnComplete: { count: 20, age: 60 },
+      },
     }),
   ],
   controllers: [AppController],
