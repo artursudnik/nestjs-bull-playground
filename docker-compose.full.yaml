@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  api:
+    image: bull-playground-api
+    pull_policy: never
+    depends_on:
+      - redis
+    environment:
+      REDIS_HOST: redis
+    ports:
+      - 127.0.0.1:3000:3000
+    networks:
+      - full-main
+
+  redis:
+    image: redis:7.0.7
+    volumes:
+      - full-redis-data:/data
+    ports:
+      - '127.0.0.1:6379:6379'
+    networks:
+      - full-main
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    restart: unless-stopped
+    depends_on:
+      - redis
+    ports:
+      - "127.0.0.1:8081:8081"
+    environment:
+      - REDIS_HOSTS=redis:redis:6379
+    networks:
+      - full-main
+
+volumes:
+  full-redis-data:
+
+networks:
+  full-main:
