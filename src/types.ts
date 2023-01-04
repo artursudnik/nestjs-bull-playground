@@ -6,6 +6,7 @@ export type JobPayload = {
 
 export type JobOptions = {
   processingTime: number;
+  failAfter?: number;
 };
 
 export type JobData = {

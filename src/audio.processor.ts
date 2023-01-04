@@ -26,7 +26,12 @@ export class AudioProcessor {
 
   @Process(TRANSCODING_JOB_TYPE_NAME)
   async transcode(job: Job<JobData>) {
-    await setTimeout(job.data.options.processingTime * 1000);
+    if (job.data.options.failAfter !== undefined) {
+      await setTimeout(job.data.options.failAfter * 1000);
+      throw new Error('failing');
+    } else {
+      await setTimeout(job.data.options.processingTime * 1000);
+    }
   }
 
   @OnQueueActive()
